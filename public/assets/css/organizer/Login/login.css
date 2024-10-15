@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.mainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    background-color: #ebf3ff;
+}
+
+.loginForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 30%;
+    height: auto;
+    background-color: #ffffff;
+    box-shadow: 0 0 100px 1px rgba(0, 0, 0, 0.1);
+}
+
+.loginForm .loginHeading {
+    font-size: 35px;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+.loginForm form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 20px;
+    margin: 10px 20px;
+}
+
+.loginForm form input {
+    padding: 15px 30px;
+    margin: 10px 0;
+    background-color: #ebf3ff;
+    border-radius: 20px;
+    width: 80%;
+    border: none;
+}
+
+.loginForm .loginButton {
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    /* Violet to Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    width: 60%;
+    margin: 10px 0;
+    transition: transform 0.7s ease-in-out;
+}
+
+.loginForm .loginButton:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    /* Blue to Violet (inverse) */
+    color: white;
+}
+
+.loginForm .error-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+@media (max-width: 1000px) {
+    .loginForm{
+        width: 40%;
+    }
+}
+
+@media (max-width: 768px) {
+    .loginForm{
+        width: 50%;
+    }
+}
+
+@media (max-width: 590px) {
+    .loginForm{
+        width: 60%;
+    }
+}
+
+@media (max-width: 490px) {
+    .loginForm{
+        width: 90%;
+    }
+}

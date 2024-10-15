@@ -1,0 +1,261 @@
+/* navbar---------------------------- */
+.profileinfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+}
+
+.profileinfo img{
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
+}
+
+.profileinfo .profilename{
+    font-size: 22px;
+    width: 90%;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.profileinfo a{
+    padding: 0;
+    margin: 0;
+}
+
+.profileinfo .profilelogoutbtn{
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #6a11cb, #2575fc); /* Violet to Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    width: 100%;
+    margin: 0 0;
+    transition: transform 0.7s ease-in-out;
+    font-size: 14px;
+}
+
+.profileinfo .profilelogoutbtn:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb); /* Blue to Violet (inverse) */
+    color: white;
+}
+
+
+/* dashboard home screen ------------------------------- */
+
+.dashboardhome{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+.dashboardhome .servicecards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    flex-wrap: wrap;
+}
+
+.dashboardhome .servicecards .singlecard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 30%;
+    height: auto;
+    background: linear-gradient(45deg, #e0e0e0, #ffffff, #f5f5f5);
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    text-decoration: none;
+    margin: 13px;
+}
+
+.dashboardhome .servicecards .singlecard:hover{
+    box-shadow: 0 0 0px 0px rgba(0, 0, 0, 0.1);
+   
+}
+
+.dashboardhome .servicecards .singlecard:hover img{
+    box-shadow: 0 0 0px 0px rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+    overflow: hidden;
+}
+
+.dashboardhome .servicecards .singlecard img{
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+    border-radius: 100%;
+    transition: 0.5s ease-in-out;
+}
+
+.dashboardhome .servicecards .singlecard img:hover{
+    transform: scale(1.1);
+    overflow: hidden;
+}
+
+.dashboardhome .servicecards .singlecard h2{
+    font-size: 20px;
+    padding: 10px;
+}
+
+/* applications----------------------------------- */
+
+.tableaction{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.tableaction .editbtn{
+    text-decoration: none;
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    color: white;
+    padding: 10px 15px;
+    margin: 10px;
+    border-radius: 13px;
+    border: none;
+}
+
+/* deletion model --------------- */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Close button */
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.close:hover {
+    color: #000;
+}
+
+#errorMessage {
+    margin-top: 10px;
+    display: none;
+}
+
+ /* Modal Background --------------------------*/
+ #pauseModal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 999; /* On top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+}
+
+/* Modal Content Box */
+#pauseModal > div {
+    background-color: #fff;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; /* Adjust the width to your preference */
+    border-radius: 10px;
+}
+
+/* Input styling */
+#pauseModal input[type="time"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Modal Buttons */
+#pauseModal button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#pauseModal button:hover {
+    opacity: 0.8;
+}
+
+/* Submit button */
+#pauseModal button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Cancel button */
+#pauseModal button[type="button"] {
+    background-color: #dc3545;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+/* media queriesssssssssss */
+@media (max-width: 768px) {
+    .dashboardhome .servicecards .singlecard{
+        width: 40%;
+    }
+}
+
+
+@media (max-width: 578px) {
+    .dashboardhome .servicecards .singlecard{
+        width: 80%;
+    }
+}

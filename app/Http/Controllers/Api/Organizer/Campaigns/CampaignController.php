@@ -43,8 +43,9 @@ class CampaignController extends Controller
             'campaignname' => 'required|string|max:255',
             'app_id' => 'required|exists:applications,id',
             'source' => 'required|string',
-            'starts_at' => ['required', 'date_format:H:i'], // Time format validation
-            'pause_at' => ['required', 'date_format:H:i', 'after:starts_at'], // Pause must be after start
+            'threshold' => 'required|integer', 
+            'starts_at' => ['required', 'date_format:H:i'], 
+            'pause_at' => ['required', 'date_format:H:i', 'after:starts_at'], 
         ]);
 
         // Store the campaign
@@ -52,12 +53,12 @@ class CampaignController extends Controller
         $campaign->name = $request->campaignname;
         $campaign->app_id = $request->app_id;
         $campaign->source = $request->source;
+        $campaign->threshold = $request->threshold; // Add threshold to campaign
         $campaign->starts_at = $request->starts_at;
         $campaign->pause_at = $request->pause_at;
 
         date_default_timezone_set('Asia/Karachi'); // Set to your desired timezone
         $currentTime = now()->format('H:i');
-        // dd($currentTime, $campaign->starts_at, $campaign->pause_at);
 
         // Compare the times correctly
         if ($currentTime >= $campaign->starts_at && $currentTime <= $campaign->pause_at) {
@@ -71,6 +72,7 @@ class CampaignController extends Controller
         // Redirect back with success message
         return redirect()->back()->with('success', 'Campaign added successfully.');
     }
+
 
     public function destroy($id)
     {

@@ -20,4 +20,9 @@ class CampaignAPI extends Model
     {
         return $this->belongsTo(Application::class, 'app_id');
     }
+
+    public function blacklistedNumbers()
+    {
+        return $this->hasMany(BlacklistedNumbers::class, 'app_id', 'app_id');
+    }
 }

@@ -82,6 +82,7 @@
                                         <tr>
                                             <td style="width: 10%" class="serial-number">{{ $serialNumber++ }}</td>
                                             <td style="width: 30%">{{ $api->application->name ?? 'App Deleted' }}
+                                            
                                             <td style="width: 30%">{{ $api->api_url }}</td>
 
                                             <td style="width: 30%">
@@ -95,7 +96,7 @@
                                                         method="POST" style="display:inline-block;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" class="editbtn"
+                                                        <button class="editbtn" type="button" class="\"
                                                             onclick="openDeleteModal('{{ $api->application->name  }}')">Delete</button>
                                                     </form>
 

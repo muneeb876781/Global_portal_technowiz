@@ -30,7 +30,7 @@
                         <h2>Applications</h2>
                     </a>
 
-                    <a class="singlecard" href="">
+                    <a class="singlecard" href="{{ route('organizer.BlacklistNumbers') }}">
                         <img src="{{ asset('assets/css/organizer/Dashboard/images/Services/blacklist.avif') }}"
                             alt="">
                         <h2>Black List Number</h2>

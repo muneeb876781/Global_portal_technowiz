@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\Organizer\Campaigns\CampaignController;
 use App\Http\Controllers\Api\Organizer\Dasboard\DashboardController;
 use App\Http\Controllers\Api\Organizer\Login\LoginController;
 use App\Http\Controllers\Api\Organizer\ApiUrls\ApiUrlsController;
+use App\Http\Controllers\Api\Organizer\BlackListedNumbers\BlacklistController;
+
 
 
 use Illuminate\Support\Facades\Route;
@@ -37,7 +39,6 @@ Route::middleware('organizer.auth')->group(function () {
     Route::get('/application/{id}/edit', [ApplicationController::class, 'edit'])->name('organizer.application.edit');
     Route::post('/application/{id}', [ApplicationController::class, 'update'])->name('organizer.application.update');
 
-
     // campaign setup routes-----------
     Route::get('/campaigns', [CampaignController::class, 'index'])->name('organizer.campaignsetup');
     Route::post('/organizer/campaign/store', [CampaignController::class, 'store'])->name('organizer.campaign.store');
@@ -51,7 +52,6 @@ Route::middleware('organizer.auth')->group(function () {
     Route::patch('/monitor/{id}/pause', [CampaigMonitoringnController::class, 'pause'])->name('organizer.campaign.pause');
     Route::post('/monitor/{id}/start', [CampaigMonitoringnController::class, 'start'])->name('organizer.campaign.start');
     
-
     // api url page routes
     Route::get('/apiUrls', [ApiUrlsController::class, 'index'])->name('organizer.apiUrls');
     Route::post('/apiUrls/store', [ApiUrlsController::class, 'store'])->name('organizer.api.store');
@@ -59,6 +59,10 @@ Route::middleware('organizer.auth')->group(function () {
     Route::post('/apiUrls/{id}', [ApiUrlsController::class, 'update'])->name('organizer.api.update');
     Route::delete('/apiUrls/{id}', [ApiUrlsController::class, 'destroy'])->name('organizer.api.destroy');
 
-
+    // Black list Numbers routes
+    Route::get('/BlacklistNumbers', [BlacklistController::class, 'index'])->name('organizer.BlacklistNumbers');
+    Route::post('/BlacklistNumbers/store', [BlacklistController::class, 'store'])->name('organizer.blacklist.store');
+    Route::patch('/BlacklistNumbers/{id}/blockAgain', [BlacklistController::class, 'blockAgain'])->name('organizer.blacklist.blockAgain');
+    Route::patch('/BlacklistNumbers/{phn_no}/unblock', [BlacklistController::class, 'unblock'])->name('organizer.blacklist.unblock');
 
 });

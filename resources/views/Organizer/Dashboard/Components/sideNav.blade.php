@@ -86,6 +86,11 @@
                                 <i class='bx bxs-file icon'></i>Applications
                             </a>
 
+                            <a href="{{ route('organizer.BlacklistNumbers') }}"
+                                class="{{ Request::is('BlacklistNumbers') ? 'active' : '' }}">
+                                <i class='bx bxs-file icon'></i>Black List Numbers 
+                            </a>
+
                             <a href="{{ route('organizer.campaignsetup') }}"
                                 class="{{ Request::is('campaigns') ? 'active' : '' }}">
                                 <i class='bx bxs-file icon'></i>Campaign Setup

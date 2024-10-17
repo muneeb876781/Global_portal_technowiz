@@ -2,10 +2,12 @@
 
 namespace App\Console;
 
-use App\Jobs\FetchUserDataJob;  // Import the job
-use App\Models\Campaign;        // Import the Campaign model
+use App\Jobs\FetchUserDataJob;  
+use App\Models\Campaign;        
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
+
 
 class Kernel extends ConsoleKernel
 {
@@ -17,16 +19,16 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             // Get all active campaigns
             $campaigns = Campaign::where('status', 1)->get();
-            \Log::info('Active campaigns count: ' . $campaigns->count()); // Log the count
+            Log::channel('campaign')->info('Active campaigns count: ' . $campaigns->count()); // Log the count
 
             // Dispatch the FetchUserDataJob for each active campaign
             foreach ($campaigns as $campaign) {
                 // Ensure that the source is set in your campaign model
                 if ($campaign->source) {
                     FetchUserDataJob::dispatch($campaign);
-                    \Log::info('Dispatched job for campaign ID: ' . $campaign->id);
+                    Log::channel('campaign')->info('Dispatched job for campaign : ' . $campaign->name);
                 } else {
-                    \Log::warning('Campaign ID ' . $campaign->id . ' does not have a source set.');
+                    Log::channel('campaign')->info('Campaign  ' . $campaign->name . ' does not have a source set.');
                 }
             }
         })->everyMinute();

@@ -176,7 +176,22 @@
                                             <option value="ndnc">NDNC</option>
                                         </select>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- Media Section -->
+                        <div class="col-12 col-md-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4></h4>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="mb-3">
+                                        <label for="threshold">Threshold:</label>
+                                        <input class="form-control" type="number" id="threshold" name="threshold" placeholder="Enter Threshold" required>
+                                    </div>
                                     <!-- Start Date -->
                                     <div class="mb-3">
                                         <label for="starts_at">Starts At:</label>
@@ -190,18 +205,6 @@
                                         <input class="form-control" type="time" id="pause_at" name="pause_at"
                                             required placeholder="Select Pause Date">
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Media Section -->
-                        <div class="col-12 col-md-6 col-lg-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Media</h4>
-                                </div>
-                                <div class="card-body">
-                                    <!-- Add any media-related fields here if required -->
                                 </div>
                                 <div class="card-footer text-right">
                                     <button class="btn btn-primary" type="submit">Add Campaign</button>
@@ -254,9 +257,12 @@
                                                         href="{{ route('organizer.campaign.edit', $campaign->id) }}">Edit</a> --}}
 
                                                     <!-- Delete Form -->
-                                                    <form id="restoreForm" action="{{ route('organizer.campaign.restore', $deletedCampaign->id) }}" method="POST" style="display:inline-block;">
+                                                    <form id="restoreForm"
+                                                        action="{{ route('organizer.campaign.restore', $deletedCampaign->id) }}"
+                                                        method="POST" style="display:inline-block;">
                                                         @csrf
-                                                        <button type="submit" onclick="return confirmRestore();" class="editbtn">Restore</button>
+                                                        <button type="submit" onclick="return confirmRestore();"
+                                                            class="editbtn">Restore</button>
                                                     </form>
 
 
@@ -280,8 +286,8 @@
                     <p>To delete this campaign, please enter the campaign name: <br>
                         <strong id="campaignNameDisplay"></strong>
                     </p>
-                    <input type="text" id="campaignNameInput" placeholder="Enter campaign name" autocomplete="off"
-                        class="form-control">
+                    <input type="text" id="campaignNameInput" placeholder="Enter campaign name"
+                        autocomplete="off" class="form-control">
                     <div id="errorMessage" style="color: red;">The campaign name entered does not match!</div>
                     <br>
                     <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>

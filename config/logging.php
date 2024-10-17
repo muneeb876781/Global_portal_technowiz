@@ -126,6 +126,18 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'campaign' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/campaign.log'), // Custom log file path
+            'level' => 'debug', // Adjust the log level as needed
+        ],
+
+        'blacklisting' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/blacklisting.log'), // Custom log file path
+            'level' => 'debug', // Adjust the log level as needed
+        ],
     ],
 
 ];

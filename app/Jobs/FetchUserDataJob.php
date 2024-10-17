@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class FetchUserDataJob implements ShouldQueue
 {
@@ -26,50 +27,67 @@ class FetchUserDataJob implements ShouldQueue
     {
         // Check if the campaign is active (status 1)
         if ($this->campaign->status == 1) {
-            \Log::info('Fetching user data for campaign ID: ' . $this->campaign->id);
-            
+            Log::channel('campaign')->info('Fetching user data for campaign: ' . $this->campaign->name);
+
             // Get the API URL based on the app_id from the campaign
-            $campaignApi = $this->campaign->campaignApi; // Fetch the associated CampaignApi
+            $campaignApi = $this->campaign->campaignApi;
 
             if ($campaignApi && !empty($campaignApi->api_url)) {
                 // Construct the API URL
-                $apiUrl = rtrim($campaignApi->api_url, '/') . '/api/user-count'; // Ensure no trailing slashes
+                $apiUrl = rtrim($campaignApi->api_url, '/') . '/api/user-count';
 
                 try {
-                    // Make an API call to the external app to fetch user count based on status and source
+                    // Make an API call to the external app to fetch user count
                     $response = Http::get($apiUrl, [
-                        'source' => $this->campaign->source, // Pass the campaign source to the API
+                        'source' => $this->campaign->source,
                     ]);
 
                     if ($response->successful()) {
-                        // Get the user count from the API response
                         $userCount = $response->json('user_count');
 
-                        // Store the user data in the CampaignUserData table
-                        CampaignUserData::create([
-                            'campaign_id' => $this->campaign->id,
-                            'user_count' => $userCount,
-                            'fetched_at' => now(),
-                        ]);
+                        // Check if userCount is null before proceeding
+                        if (!is_null($userCount)) {
+                            // Store user data
+                            CampaignUserData::create([
+                                'campaign_id' => $this->campaign->id,
+                                'user_count' => $userCount,
+                                'fetched_at' => now(),
+                            ]);
 
-                        \Log::info('User count for campaign ID ' . $this->campaign->id . ': ' . $userCount);
+                            Log::channel('campaign')->info('User count for campaign ' . $this->campaign->name . ': ' . $userCount);
+
+                            // Check against the threshold
+                            if ($userCount < $this->campaign->threshold) {
+                                // Trigger an email notification
+                                try {
+                                    // Send email with CC to multiple recipients
+                                    \Mail::to('muneebto1256@gmail.com') // Main recipient
+                                        ->cc(['muneebto876781@gmail.com', 'hassan@technowiz.tech']) // CC recipients
+                                        ->send(new \App\Mail\ThresholdAlert($this->campaign, $userCount));
+                                    
+                                    Log::channel('campaign')->info('Email notification sent for campaign ' . $this->campaign->name);
+                                } catch (\Exception $e) {
+                                    Log::channel('campaign')->error('Failed to send email notification for campaign ' . $this->campaign->name . ': ' . $e->getMessage());
+                                }
+
+                                Log::channel('campaign')->warning('User count (' . $userCount . ') for campaign ' . $this->campaign->name . ' is less than the threshold (' . $this->campaign->threshold . ').');
+                            } else {
+                                Log::channel('campaign')->info('User count (' . $userCount . ') for campaign ' . $this->campaign->name . ' is greater than or equal to the threshold (' . $this->campaign->threshold . ').');
+                            }
+                        } else {
+                            Log::channel('campaign')->error('User count is null for campaign ' . $this->campaign->name . '. Skipping user data storage.');
+                        }
                     } else {
-                        \Log::error('Failed to fetch user data from API for campaign ID ' . $this->campaign->id);
+                        Log::channel('campaign')->error('Failed to fetch user data from API for campaign ' . $this->campaign->name . '. Response: ' . $response->body());
                     }
                 } catch (\Exception $e) {
-                    \Log::error('Error occurred while fetching user data for campaign ID ' . $this->campaign->id . ': ' . $e->getMessage());
+                    Log::channel('campaign')->error('Error while fetching user data for campaign ' . $this->campaign->name . ': ' . $e->getMessage());
                 }
             } else {
-                // Log a warning if the API URL is not available for this campaign
-                \Log::warning('No API URL found for campaign ID ' . $this->campaign->id . '. Skipping campaign.');
+                Log::channel('campaign')->warning('No API URL found for campaign ' . $this->campaign->name . '. Skipping campaign.');
             }
         } else {
-            \Log::warning('Campaign ID ' . $this->campaign->id . ' is not active. Skipping campaign.');
+            Log::channel('campaign')->warning('Campaign ' . $this->campaign->name . ' is not active. Skipping campaign.');
         }
     }
-
-
-
-
-
 }

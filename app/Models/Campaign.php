@@ -9,7 +9,7 @@ class Campaign extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'app_id', 'starts_at', 'pause_at'];
+    protected $fillable = ['name', 'app_id', 'starts_at', 'pause_at', 'threshold'];
 
     // A campaign belongs to an application
     public function application()

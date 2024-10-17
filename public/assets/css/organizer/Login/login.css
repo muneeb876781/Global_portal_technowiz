@@ -17,6 +17,19 @@
     background-color: #ebf3ff;
 }
 
+.mainContainer .mainLogoImage{
+    width: 170px;
+    height: auto;
+}
+
+.mainContainer .mainHeading{
+    font-size: 30px;
+    font-weight: 300;
+    padding-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
 .loginForm {
     display: flex;
     justify-content: center;

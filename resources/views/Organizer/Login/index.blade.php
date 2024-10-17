@@ -6,11 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('assets/css/organizer/Login/login.css') }}">
-    <title>Login | Technowiz Universal Portal</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/css/organizer/Login/images/favicon.png') }}">
+
+    <title>Login | Technowiz Admin Console </title>
 </head>
 
 <body>
     <div class="mainContainer">
+        <img class="mainLogoImage" src="{{ asset('assets/css/organizer/Login/images/logo.png') }}" alt="">
+        <h1 class="mainHeading">Admin Console</h1>
         <div class="loginForm">
             <h1 class="loginHeading">Log in</h1>
             <form action="{{ route('organizer.login') }}" method="POST">

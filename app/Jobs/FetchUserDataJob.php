@@ -62,7 +62,7 @@ class FetchUserDataJob implements ShouldQueue
                                 try {
                                     // Send email with CC to multiple recipients
                                     \Mail::to('muneebto1256@gmail.com') // Main recipient
-                                        ->cc(['muneebto876781@gmail.com', 'hassan@technowiz.tech']) // CC recipients
+                                        ->cc(['muneebto876781@gmail.com', 'hassan@technowiz.tech']) 
                                         ->send(new \App\Mail\ThresholdAlert($this->campaign, $userCount));
                                     
                                     Log::channel('campaign')->info('Email notification sent for campaign ' . $this->campaign->name);

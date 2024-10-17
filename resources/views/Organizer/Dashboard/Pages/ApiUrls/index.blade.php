@@ -98,7 +98,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button class="editbtn" type="button" class="\"
-                                                            onclick="openDeleteModal('{{ $api->application->name  }}')">Delete</button>
+                                                            onclick="openDeleteModal('{{ $api->application ? $api->application->name : 'App Deleted' }}')">Delete</button>
                                                     </form>
 
                                                 </div>

@@ -313,10 +313,6 @@ class BlacklistController extends Controller
         return redirect()->back()->with('results', $results);
     }
 
-
-    
-
-
     //  previous stable
     // public function unblock(Request $request, $phone_number)
     // {
@@ -403,7 +399,7 @@ class BlacklistController extends Controller
     //     }
     // }
 
-    // new stable
+    // new stable fun
     public function unblock(Request $request, $phone_number)
     {
         // Validate the request to ensure app_id is provided

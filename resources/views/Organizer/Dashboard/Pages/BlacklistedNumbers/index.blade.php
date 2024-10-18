@@ -21,26 +21,20 @@
 <body>
     @include('Organizer.Dashboard.Components.sideNav')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @if (session('success'))
+    @if (session('results'))
         <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Number Black Lissted Successfully!',
-                text: '{{ session('success') }}',
-                confirmButtonText: 'Close'
+            const results = @json(session('results')); // Convert PHP array to JS
+            results.forEach(result => {
+                Swal.fire({
+                    icon: result.status === 'success' ? 'success' : (result.status ===
+                        'alreadyblocked_success' ? 'warning' : 'error'),
+                    title: result.message,
+                    confirmButtonText: 'Close'
+                });
             });
         </script>
     @endif
-    @if (session('blacklisted_success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Phone number is already blacklisted!',
-                text: '{{ session('blacklisted_success') }}',
-                confirmButtonText: 'Close'
-            });
-        </script>
-    @endif
+
     @if (session('unlock_success'))
         <script>
             Swal.fire({
@@ -51,6 +45,18 @@
             });
         </script>
     @endif
+    @if (session('unblock_error'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Somethin Went Wrong!',
+                text: '{{ session('unblock_error') }}',
+                confirmButtonText: 'Close'
+            });
+        </script>
+    @endif
+
+
 
 
     <div class="content-start transition">
@@ -97,12 +103,12 @@
                                                 @if ($blacklistedNumber->is_blocked)
                                                     <span class="">Blocked</span><br>
                                                     <span>Blocked at:
-                                                        {{ $blacklistedNumber->blocked_at ? $blacklistedNumber->updated_at->setTimezone('Asia/Karachi')->format('Y-m-d H:i:s') : 'N/A' }}
+                                                        {{ $blacklistedNumber->blocked_at ? $blacklistedNumber->blocked_at : 'N/A' }}
                                                     </span>
                                                 @else
                                                     <span class="">Unblocked</span><br>
                                                     <span>Unblocked at:
-                                                        {{ $blacklistedNumber->unblocked_at ? $blacklistedNumber->updated_at->setTimezone('Asia/Karachi')->format('Y-m-d H:i:s') : 'N/A' }}
+                                                        {{ $blacklistedNumber->unblocked_at ? $blacklistedNumber->blocked_at : 'N/A' }}
                                                     </span>
                                                 @endif
                                             </td>
@@ -114,6 +120,8 @@
                                                             style="display:inline-block;">
                                                             @csrf
                                                             @method('PATCH')
+                                                            <input type="hidden" name="app_id"
+                                                                value="{{ $blacklistedNumber->app_id }}">
                                                             <button type="submit" class="editbtn">Unblock</button>
                                                         </form>
                                                     @else
@@ -139,8 +147,8 @@
 
             <!-- Form for Adding New Blacklisted Number -->
             <div id="addBlacklistForm" class="row" style="display: none">
-                <form class="main_form" action="{{ route('organizer.blacklist.store') }}" method="POST"
-                    enctype="multipart/form-data">
+                <form id="blacklistForm" class="main_form" action="{{ route('organizer.blacklist.store') }}"
+                    method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <!-- Phone Number Section -->
@@ -153,8 +161,10 @@
                                     <!-- Phone Number Input -->
                                     <div class="mb-3">
                                         <label for="phone_number">Phone Number:</label>
-                                        <input type="text" class="form-control" id="phone_number" name="phone_number"
-                                            placeholder="92xxxxxxxxxx" required pattern="92[0-9]{10}">
+                                        <input type="tel" class="form-control" id="phone_number" name="phone_number"
+                                            placeholder="92xxxxxxxxxx" required pattern="92[0-9]{10}" maxlength="12"
+                                            minlength="12" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+
                                         <small class="text-muted">Format: 92xxxxxxxxxx (12 digits total)</small>
                                     </div>
 
@@ -164,15 +174,20 @@
                                         <div>
                                             @foreach ($applications as $application)
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="app_ids[]"
-                                                        value="{{ $application->id }}"
+                                                    <input class="form-check-input app-checkbox" type="checkbox"
+                                                        name="app_ids[]" value="{{ $application->id }}"
                                                         id="app_{{ $application->id }}">
+
                                                     <label class="form-check-label" for="app_{{ $application->id }}">
                                                         {{ $application->name }}
                                                     </label>
                                                 </div>
                                             @endforeach
+                                            <div id="error-message"
+                                                style="color: red; display: none; margin-top: 10px;"></div>
+
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -205,6 +220,31 @@
                         </div>
                     </div>
                 </form>
+                <script>
+                    document.getElementById('blacklistForm').addEventListener('submit', function(e) {
+                        // Select all checkbox inputs with the class 'app-checkbox'
+                        const checkboxes = document.querySelectorAll('.app-checkbox'); // Corrected this line
+                        // Check if at least one checkbox is checked
+                        const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+                        // Get the error message element
+                        const errorMessageElement = document.getElementById('error-message');
+
+                        console.log("Checkboxes checked:", isChecked); // Debugging log
+
+                        if (!isChecked) {
+                            e.preventDefault(); // Prevent form submission
+                            errorMessageElement.textContent =
+                                'Please select at least one application.'; // Set the error message
+                            errorMessageElement.style.display = 'block'; // Show the error message
+                        } else {
+                            errorMessageElement.style.display = 'none'; // Hide the error message if at least one is checked
+                            console.log("Form submitted successfully."); // Debugging log
+                        }
+                    });
+                </script>
+
+
             </div>
 
             <div id="unblockedNumbers" class="row" style="display: none">

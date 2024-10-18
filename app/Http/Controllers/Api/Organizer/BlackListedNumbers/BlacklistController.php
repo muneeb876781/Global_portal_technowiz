@@ -276,6 +276,7 @@ class BlacklistController extends Controller
                                 'blocked_at' => now(),
                                 'blacklisted_by' => $request->blacklisted_by, // Store the username
                                 'blacklisted_by_ip' => $clientIp, // Store the IP address
+                                'updated_at' => now()
                             ]
                         );
 

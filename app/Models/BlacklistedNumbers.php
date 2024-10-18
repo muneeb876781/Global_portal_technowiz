@@ -13,6 +13,11 @@ class BlacklistedNumbers extends Model
         'phone_number', 'app_id', 'reason', 'is_blocked', 'blocked_at', 'unblocked_at', 'blacklisted_by', 'blacklisted_by_ip',
     ];
 
+    protected $casts = [
+        'blocked_at' => 'datetime',
+        'unblocked_at' => 'datetime',
+    ];
+
     /**
      * Define the relationship with the CampaignAPI model.
      * Each blacklisted number belongs to one campaign API (app).

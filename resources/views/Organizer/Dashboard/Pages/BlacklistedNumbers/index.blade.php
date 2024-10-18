@@ -100,17 +100,10 @@
                                                 {{ $blacklistedNumber->reason ?? 'No reason provided' }}
                                             </td>
                                             <td style="width: 30%;" class="status">
-                                                @if ($blacklistedNumber->is_blocked)
-                                                    <span class="">Blocked</span><br>
-                                                    <span>Blocked at:
-                                                        {{ $blacklistedNumber->blocked_at ? $blacklistedNumber->blocked_at : 'N/A' }}
-                                                    </span>
-                                                @else
-                                                    <span class="">Unblocked</span><br>
-                                                    <span>Unblocked at:
-                                                        {{ $blacklistedNumber->unblocked_at ? $blacklistedNumber->blocked_at : 'N/A' }}
-                                                    </span>
-                                                @endif
+                                                <span class="">Unblocked</span><br>
+                                                <span>Unblocked at:
+                                                    {{$blacklistedNumber && $blacklistedNumber->blocked_at ? $blacklistedNumber->blocked_at->setTimezone('Asia/Karachi')->format('Y-m-d H:i:s') : 'N/A' }}
+                                                </span>
                                             </td>
                                             <td style="width: 20%;" class="actions">
                                                 <div class="tableaction">
@@ -279,17 +272,10 @@
                                                 {{ $unBlockedNumber->reason ?? 'No reason provided' }}
                                             </td>
                                             <td style="width: 30%;" class="status">
-                                                @if ($unBlockedNumber->is_blocked)
-                                                    <span class="">Blocked</span><br>
-                                                    <span>Blocked at:
-                                                        {{ $unBlockedNumber->blocked_at ? $unBlockedNumber->updated_at->setTimezone('Asia/Karachi')->format('Y-m-d H:i:s') : 'N/A' }}
-                                                    </span>
-                                                @else
-                                                    <span class="">Unblocked</span><br>
-                                                    <span>Unblocked at:
-                                                        {{ $unBlockedNumber->unblocked_at ? $unBlockedNumber->updated_at->setTimezone('Asia/Karachi')->format('Y-m-d H:i:s') : 'N/A' }}
-                                                    </span>
-                                                @endif
+                                                <span class="">Unblocked</span><br>
+                                                <span>Unblocked at:
+                                                    {{ $unBlockedNumber->unblocked_at ? $unBlockedNumber->unblocked_at->setTimezone('Asia/Karachi')->format('Y-m-d H:i:s') : 'N/A' }}
+                                                </span>
                                             </td>
                                             <td style="width: 20%;" class="actions">
                                                 <div class="tableaction">
